@@ -11,6 +11,7 @@ from typing import Any
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from .interventions import lora_scale, steer
 from .items import DecisionItem, presentation_order
 
 LETTERS = string.ascii_uppercase
@@ -143,6 +144,67 @@ class MCQBackend(Backend):
         return out
 
 
+CLOZE_SYSTEM = "You are making a decision. Reply with only the option you choose, exactly as written."
+
+
+def _option_text(c: dict) -> str:
+    return f"{c['label']} — {c['description']}" if c.get("description") else c["label"]
+
+
+class ClozeBackend(Backend):
+    """Letter-free control for MCQBackend: options listed as bullets, scored by log P(option text | prompt).
+
+    Removes letter-token bias from the base readout. option_mass = total P over the exact option strings.
+    """
+
+    def __init__(self, name: str, model: Any, tok: Any, chat_kwargs: dict | None = None, chat: bool = True):
+        self.name, self.model, self.tok, self.chat = name, model, tok, chat
+        self.chat_kwargs = chat_kwargs or {}
+        self.tok.padding_side = "left"
+        if self.tok.pad_token_id is None:
+            self.tok.pad_token = self.tok.eos_token
+
+    def _prompt(self, it: DecisionItem, order: list[int]) -> str:
+        opts = "\n".join(f"- {_option_text(it.candidates[ci])}" for ci in order)
+        state = _render_state(it.state)
+        body = (f"{state}\n\n" if state else "") + f"Question: {it.instructions}\n\nOptions:\n{opts}"
+        if not self.chat:
+            return f"{CLOZE_SYSTEM}\n\n{body}\nAnswer:"
+        return self.tok.apply_chat_template(
+            [{"role": "system", "content": CLOZE_SYSTEM}, {"role": "user", "content": body}],
+            tokenize=False, add_generation_prompt=True, **self.chat_kwargs,
+        )
+
+    def score(self, items, seed):
+        orders = [presentation_order(seed, it.item_id, len(it.candidates)) for it in items]
+        seqs, conts = [], []  # one sequence per (item, candidate), prompt and option tokenised separately
+        for it, order in zip(items, orders):
+            p_ids = self.tok.encode(self._prompt(it, order), add_special_tokens=not self.chat)
+            for c in it.candidates:
+                c_ids = self.tok.encode(("" if self.chat else " ") + _option_text(c), add_special_tokens=False)
+                seqs.append(p_ids + c_ids)
+                conts.append(c_ids)
+        width, k = max(map(len, seqs)), max(map(len, conts)) + 1
+        pad = self.tok.pad_token_id
+        ids = torch.tensor([[pad] * (width - len(s)) + s for s in seqs])
+        mask = torch.tensor([[0] * (width - len(s)) + [1] * len(s) for s in seqs])
+        with torch.inference_mode():
+            logits = self.model(input_ids=ids.to(self.model.device), attention_mask=mask.to(self.model.device),
+                                use_cache=False, logits_to_keep=k).logits
+        logp = torch.log_softmax(logits.float(), -1).cpu()
+        seq_lp = []
+        for row, c_ids in zip(logp, conts):  # row[j] predicts token at position width-k+1+j
+            n = len(c_ids)
+            seq_lp.append(float(row[k - 1 - n : k - 1].gather(-1, torch.tensor(c_ids)[:, None]).sum()))
+        out, i = [], 0
+        for it, order in zip(items, orders):
+            lp = torch.tensor(seq_lp[i : i + len(it.candidates)])
+            i += len(it.candidates)
+            out.append({"probs": torch.softmax(lp, -1).tolist(), "presented_order": order,
+                        "option_mass": float(lp.exp().sum())})
+        return out
+
+
 KEV_SRC = Path(__file__).resolve().parent.parent / "vendor" / "kev"
 
 
@@ -185,11 +247,57 @@ class KevBackend(Backend):
         return out
 
 
+class VegaBackend(Backend):
+    """vegaml (laya 0.5 engine): a 14.3M decision engine over a frozen LLM reader.
+
+    Core engine readout, views=1: options are read in the order given (our shared shuffle), boolean is [no, yes].
+    The reader is loaded from a local snapshot so the base comparison uses the identical weights.
+    """
+
+    def __init__(self, name: str, engine_dir: str, reader: str):
+        from vegaml._api import Vega
+        self.name = name
+        self.v = Vega(str(Path(engine_dir).expanduser()), backbone=str(Path(reader).expanduser()))
+
+    def score(self, items, seed):
+        out = []
+        for it in items:
+            n, ids = len(it.candidates), [c["id"] for c in it.candidates]
+            if it.decision_type == "noul":
+                order, keys = [ids.index("no"), ids.index("yes")], ["False", "True"]
+                q = {"type": "boolean", "instructions": it.instructions}
+            else:
+                order = presentation_order(seed, it.item_id, n)
+                keys = [it.candidates[ci]["label"] for ci in order]
+                assert len(set(keys)) == n, f"{it.item_id}: vega needs unique option labels"
+                q = {"type": it.decision_type, "instructions": it.instructions,
+                     "criteria": {it.candidates[ci]["label"]: it.candidates[ci].get("description") or None
+                                  for ci in order}}
+            ans = self.v.decide(it.state, {"q": q}, views=1)["answers"]["q"]["probs"]
+            probs = [0.0] * n
+            for slot, ci in enumerate(order):
+                probs[ci] = float(ans[keys[slot]])
+            out.append({"probs": probs, "presented_order": order, "option_mass": None})
+        return out
+
+
 _BOSUN_CACHE: dict[str, Any] = {}
+_LM_CACHE: dict[tuple, Any] = {}  # one copy of a reader per process, shared by every condition that uses it
+_VEGA_CACHE: dict[tuple, Any] = {}
 
 
-def build_backend(name: str, spec: dict) -> Backend:
-    """Build from a configs/models.yaml entry."""
+def _load_lm(spec: dict) -> tuple[Any, Any]:
+    key = (spec["path"], spec.get("revision"), spec.get("dtype", "bfloat16"))
+    if key not in _LM_CACHE:
+        kw = {"revision": spec.get("revision"), "local_files_only": spec.get("local_files_only", False)}
+        tok = AutoTokenizer.from_pretrained(spec["path"], **kw)
+        model = AutoModelForCausalLM.from_pretrained(spec["path"], dtype=getattr(torch, key[2]), **kw)
+        _LM_CACHE[key] = (model.to(_device()).eval(), tok)
+    return _LM_CACHE[key]
+
+
+def _build(name: str, spec: dict) -> tuple[Backend, Any, Any]:
+    """-> (backend, LM the steering hook goes on, PEFT model whose adapter scales)."""
     kind = spec["backend"]
     if spec.get("loader") == "bosun" or kind == "bosun":
         path = spec["path"]
@@ -197,16 +305,45 @@ def build_backend(name: str, spec: dict) -> Backend:
             _BOSUN_CACHE[path] = load_bosun(path)
         bosun = _BOSUN_CACHE[path]
         if kind == "bosun":
-            return BosunBackend(name, bosun)
+            return BosunBackend(name, bosun), bosun.model, bosun.model
         ctx = bosun.model.disable_adapter if spec.get("adapter") == "off" else None
-        return MCQBackend(name, bosun.model, bosun.tokenizer,
-                          spec.get("chat_kwargs"), adapter_ctx=ctx)
+        return MCQBackend(name, bosun.model, bosun.tokenizer, spec.get("chat_kwargs"), adapter_ctx=ctx), \
+            bosun.model, bosun.model
+    if kind == "vega":
+        key = (spec["engine"], spec["reader"])
+        if key not in _VEGA_CACHE:
+            _VEGA_CACHE[key] = VegaBackend(name, spec["engine"], spec["reader"])
+        b = VegaBackend.__new__(VegaBackend)  # same loaded engine + reader, this condition's name
+        b.name, b.v = name, _VEGA_CACHE[key].v
+        return b, b.v.perc.model, None
     if kind == "kev":
-        return KevBackend(name, spec["path"])
-    if kind == "mcq":
-        kw = {"revision": spec.get("revision"), "local_files_only": spec.get("local_files_only", False)}
-        tok = AutoTokenizer.from_pretrained(spec["path"], **kw)
-        model = AutoModelForCausalLM.from_pretrained(spec["path"], dtype=torch.bfloat16, **kw)
-        return MCQBackend(name, model.to(_device()).eval(), tok, spec.get("chat_kwargs"),
-                          chat=spec.get("chat", True))
+        return KevBackend(name, spec["path"]), None, None
+    if kind in ("mcq", "cloze"):
+        model, tok = _load_lm(spec)
+        cls = MCQBackend if kind == "mcq" else ClozeBackend
+        return cls(name, model, tok, spec.get("chat_kwargs"), chat=spec.get("chat", True)), model, None
     raise ValueError(f"unknown backend {kind!r} for {name}")
+
+
+def build_backend(name: str, spec: dict) -> Backend:
+    """Build from a configs/models.yaml entry. `adapter_scale` / `steer_alpha` (set by a `name@s=` / `name@a=`
+    condition in run.py) attach an intervention that run.py enters around every score() call."""
+    backend, lm, peft_model = _build(name, spec)
+    ctxs = []
+    if spec.get("adapter_scale") is not None:
+        assert peft_model is not None, f"{name}: adapter_scale needs a LoRA (bosun) model"
+        ctxs.append(lambda: lora_scale(peft_model, float(spec["adapter_scale"])))
+    if spec.get("steer_alpha"):
+        assert lm is not None and "steer" in spec, f"{name}: steer_alpha needs a `steer:` entry in the config"
+        st = torch.load(Path(spec["steer"]).expanduser(), weights_only=True)
+        ctxs.append(lambda: steer(lm, st["layer"], st["vector"], float(spec["steer_alpha"])))
+
+    @contextlib.contextmanager
+    def intervention():
+        with contextlib.ExitStack() as stack:
+            for c in ctxs:
+                stack.enter_context(c())
+            yield
+
+    backend.intervention = intervention
+    return backend

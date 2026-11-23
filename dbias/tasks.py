@@ -119,8 +119,8 @@ def framing(limit: int | None = None) -> list[DecisionItem]:
                 task="framing", item_id=f"frame:{s}:{frame}", group_id=f"frame:{s}",
                 state={"situation": setting.format(n=n)},
                 instructions="Which response plan should be adopted?",
-                candidates=[{"id": "sure", "label": "Plan A", "description": a},
-                            {"id": "risky", "label": "Plan B", "description": b}],
+                candidates=[{"id": "sure", "label": "Plan X", "description": a},
+                            {"id": "risky", "label": "Plan Y", "description": b}],
                 variant={"frame": frame},
             ))
     return _sample(items, limit)

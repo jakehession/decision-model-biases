@@ -18,6 +18,8 @@ tasks.py ──► DecisionItem ──► backend.score() ──► results/<mod
   - `bosun`: native decision-slot readout (`trust_remote_code`).
   - `kev`: kev's pointer head, scored in-process with the vendored `vendor/kev` code exactly as `kev.serve` does
     (`to_record` → `admit` → `probs`, bf16 off-CPU). Kev keeps the option order it is given; yes/no is always [no, yes].
+  - `vega`: vegaml's core engine readout (`views=1`, options in the order given, boolean = [no, yes]) over the
+    reader snapshot named in the config. Matches vegaml's public `decide(mode="engine")` exactly.
   - `mcq`: any chat causal LM (`chat: false` gives a plain "Answer:" prompt for pre-trained base models). Options are lettered and we read the next-token probability of each letter.
     `option_mass` records how much probability landed on letters; low mass means the readout is invalid.
 - **Same order for every model.** All backends use Bosun's seeded shuffle (`presentation_order`), so
@@ -43,7 +45,11 @@ uv run python -m dbias.analyze bosun-v3.1,qwen3-1.7b
 | :-- | :-- | :-- |
 | Hanno-Labs/bosun-v3.1-1.7b | Qwen/Qwen3-1.7B `70d244cc` | bosun / mcq (chat) |
 | Hanno-Labs/bosun-v3.1-0.6b | Qwen/Qwen3-0.6B `c1899de2` | bosun / mcq (chat) |
-| jaredpalmer/kev-0.6b `dece6dba` | Qwen/Qwen3-0.6B-Base `da87bfb6` | kev / mcq (plain) |
+| jaredpalmer/kev-0.6b `dece6dba` (parked) | Qwen/Qwen3-0.6B-Base `da87bfb6` | kev / mcq (plain) |
+| nandakishorm/vega-U `6aee3758` (vegaml `1587be79`) | Qwen/Qwen3.5-0.8B `2fc06364`, **frozen** | vega / mcq (chat, fp32) |
+| nandakishorm/vega-U/Qwen3.5-4B `6aee3758` | Qwen/Qwen3.5-4B `851bf6e8`, **frozen** | vega / mcq (chat, fp32) |
+
+Vega leaves its reader untouched, so its base comparison isolates the 14.3M decision engine alone.
 
 Candidates come from the DecisionBench results registry's `model_type: decision-model` submissions (open weights,
 named base, ≤ ~5B). Next: kev-0.5b (Qwen2.5-0.5B), kev-4b (Qwen3.5-4B-Base), Open-Jev-2B, decider-2b, imajev-4b.

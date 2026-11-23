@@ -93,7 +93,8 @@ METRICS = {"position": position, "framing": framing, "discrim_eval": discrim_eva
 
 @app.command()
 def main(models: str, tasks: str = ",".join(METRICS), results: Path = Path("results"),
-         config: Path = Path("configs/models.yaml")):
+         config: Path = Path("configs/models.yaml"),
+         base_suffix: str = typer.Option("", help="pair with '<base><suffix>', e.g. -cloze")):
     specs = yaml.safe_load(config.read_text())
     names = models.split(",")
     pd.set_option("display.width", 200, "display.max_rows", 200)
@@ -111,6 +112,7 @@ def main(models: str, tasks: str = ",".join(METRICS), results: Path = Path("resu
             print(f"\n── {name}{extra}\n{summary}")
         for name in names:
             base = specs.get(name, {}).get("base")
+            base = base and base + base_suffix
             if name in signals and base in signals:
                 a, b = signals[name].align(signals[base], join="inner")
                 rho = spearmanr(a, b).statistic
