@@ -1,0 +1,57 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1124 08:21:49.458000 62956 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 5119.66it/s]
+bosun-v3.1-0.6b@s=0          position          339 rows    23.8s → results/bosun-v3.1-0.6b@s=0/position.parquet
+bosun-v3.1-0.6b@s=0          framing            36 rows     3.1s → results/bosun-v3.1-0.6b@s=0/framing.parquet
+bosun-v3.1-0.6b@s=0          discrim_eval     8100 rows  1145.4s → results/bosun-v3.1-0.6b@s=0/discrim_eval.parquet
+bosun-v3.1-0.6b@s=0          bbq              1782 rows   191.5s → results/bosun-v3.1-0.6b@s=0/bbq.parquet
+bosun-v3.1-0.6b@s=0.25       position          339 rows    23.5s → results/bosun-v3.1-0.6b@s=0.25/position.parquet
+bosun-v3.1-0.6b@s=0.25       framing            36 rows     3.1s → results/bosun-v3.1-0.6b@s=0.25/framing.parquet
+bosun-v3.1-0.6b@s=0.25       discrim_eval     8100 rows  1145.7s → results/bosun-v3.1-0.6b@s=0.25/discrim_eval.parquet
+bosun-v3.1-0.6b@s=0.25       bbq              1782 rows   191.9s → results/bosun-v3.1-0.6b@s=0.25/bbq.parquet
+bosun-v3.1-0.6b@s=0.5        position          339 rows    23.9s → results/bosun-v3.1-0.6b@s=0.5/position.parquet
+bosun-v3.1-0.6b@s=0.5        framing            36 rows     3.1s → results/bosun-v3.1-0.6b@s=0.5/framing.parquet
+bosun-v3.1-0.6b@s=0.5        discrim_eval     8100 rows  1141.3s → results/bosun-v3.1-0.6b@s=0.5/discrim_eval.parquet
+bosun-v3.1-0.6b@s=0.5        bbq              1782 rows   191.8s → results/bosun-v3.1-0.6b@s=0.5/bbq.parquet
+bosun-v3.1-0.6b@s=0.75       position          339 rows    23.5s → results/bosun-v3.1-0.6b@s=0.75/position.parquet
+bosun-v3.1-0.6b@s=0.75       framing            36 rows     3.1s → results/bosun-v3.1-0.6b@s=0.75/framing.parquet
+bosun-v3.1-0.6b@s=0.75       discrim_eval     8100 rows  1143.1s → results/bosun-v3.1-0.6b@s=0.75/discrim_eval.parquet
+bosun-v3.1-0.6b@s=0.75       bbq              1782 rows   191.8s → results/bosun-v3.1-0.6b@s=0.75/bbq.parquet
+bosun-v3.1-0.6b@s=1          position          339 rows    23.6s → results/bosun-v3.1-0.6b@s=1/position.parquet
+bosun-v3.1-0.6b@s=1          framing            36 rows     3.1s → results/bosun-v3.1-0.6b@s=1/framing.parquet
+bosun-v3.1-0.6b@s=1          discrim_eval     8100 rows  1142.0s → results/bosun-v3.1-0.6b@s=1/discrim_eval.parquet
+bosun-v3.1-0.6b@s=1          bbq              1782 rows   194.1s → results/bosun-v3.1-0.6b@s=1/bbq.parquet
+bosun-v3.1-0.6b-letters@s=0  position          339 rows    15.8s → results/bosun-v3.1-0.6b-letters@s=0/position.parquet
+bosun-v3.1-0.6b-letters@s=0  framing            36 rows     2.4s → results/bosun-v3.1-0.6b-letters@s=0/framing.parquet
+bosun-v3.1-0.6b-letters@s=0  discrim_eval     8100 rows   963.4s → results/bosun-v3.1-0.6b-letters@s=0/discrim_eval.parquet
+bosun-v3.1-0.6b-letters@s=0  bbq              1782 rows   149.3s → results/bosun-v3.1-0.6b-letters@s=0/bbq.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.25/position: mean option_mass 0.36; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.25 position          339 rows    15.7s → results/bosun-v3.1-0.6b-letters@s=0.25/position.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.25/framing: mean option_mass 0.35; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.25 framing            36 rows     2.3s → results/bosun-v3.1-0.6b-letters@s=0.25/framing.parquet
+bosun-v3.1-0.6b-letters@s=0.25 discrim_eval     8100 rows   963.9s → results/bosun-v3.1-0.6b-letters@s=0.25/discrim_eval.parquet
+bosun-v3.1-0.6b-letters@s=0.25 bbq              1782 rows   149.7s → results/bosun-v3.1-0.6b-letters@s=0.25/bbq.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.5/position: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.5 position          339 rows    15.6s → results/bosun-v3.1-0.6b-letters@s=0.5/position.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.5/framing: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.5 framing            36 rows     2.3s → results/bosun-v3.1-0.6b-letters@s=0.5/framing.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.5/discrim_eval: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.5 discrim_eval     8100 rows   962.7s → results/bosun-v3.1-0.6b-letters@s=0.5/discrim_eval.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.5/bbq: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.5 bbq              1782 rows   149.0s → results/bosun-v3.1-0.6b-letters@s=0.5/bbq.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.75/position: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.75 position          339 rows    15.6s → results/bosun-v3.1-0.6b-letters@s=0.75/position.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.75/framing: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.75 framing            36 rows     2.3s → results/bosun-v3.1-0.6b-letters@s=0.75/framing.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.75/discrim_eval: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.75 discrim_eval     8100 rows   963.9s → results/bosun-v3.1-0.6b-letters@s=0.75/discrim_eval.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=0.75/bbq: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=0.75 bbq              1782 rows   149.5s → results/bosun-v3.1-0.6b-letters@s=0.75/bbq.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=1/position: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=1  position          339 rows    15.7s → results/bosun-v3.1-0.6b-letters@s=1/position.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=1/framing: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=1  framing            36 rows     2.3s → results/bosun-v3.1-0.6b-letters@s=1/framing.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=1/discrim_eval: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=1  discrim_eval     8100 rows   965.7s → results/bosun-v3.1-0.6b-letters@s=1/discrim_eval.parquet
+  ⚠ bosun-v3.1-0.6b-letters@s=1/bbq: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+bosun-v3.1-0.6b-letters@s=1  bbq              1782 rows   149.4s → results/bosun-v3.1-0.6b-letters@s=1/bbq.parquet

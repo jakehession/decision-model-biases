@@ -1,0 +1,8 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1124 12:14:34.312000 93413 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<03:48,  1.36it/s]Loading weights:  41%|████      | 127/311 [00:00<00:00, 204.05it/s]Loading weights:  64%|██████▎   | 198/311 [00:01<00:00, 150.26it/s]Loading weights:  78%|███████▊  | 242/311 [00:02<00:00, 85.95it/s] Loading weights:  87%|████████▋ | 271/311 [00:02<00:00, 83.67it/s]Loading weights:  94%|█████████▍| 292/311 [00:03<00:00, 80.99it/s]Loading weights:  99%|█████████▉| 309/311 [00:03<00:00, 87.71it/s]Loading weights: 100%|██████████| 311/311 [00:03<00:00, 93.06it/s]
+qwen3-1.7b-cloze             position          339 rows    58.5s → results/qwen3-1.7b-cloze/position.parquet
+  ⚠ qwen3-1.7b-cloze/framing: mean option_mass 0.00; the model isn't answering with option letters, so these probabilities are not meaningful
+qwen3-1.7b-cloze             framing            36 rows     7.9s → results/qwen3-1.7b-cloze/framing.parquet
+qwen3-1.7b-cloze             discrim_eval     8100 rows  2651.5s → results/qwen3-1.7b-cloze/discrim_eval.parquet
+qwen3-1.7b-cloze             bbq              1782 rows  1050.3s → results/qwen3-1.7b-cloze/bbq.parquet

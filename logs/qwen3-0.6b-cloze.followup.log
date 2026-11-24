@@ -1,0 +1,10 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1124 11:49:50.673000 90689 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<02:17,  2.26it/s]Loading weights:  72%|███████▏  | 224/311 [00:00<00:00, 534.39it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 387.50it/s]
+  ⚠ qwen3-0.6b-cloze/position: mean option_mass 0.10; the model isn't answering with option letters, so these probabilities are not meaningful
+qwen3-0.6b-cloze             position          339 rows    24.9s → results/qwen3-0.6b-cloze/position.parquet
+  ⚠ qwen3-0.6b-cloze/framing: mean option_mass 0.10; the model isn't answering with option letters, so these probabilities are not meaningful
+qwen3-0.6b-cloze             framing            36 rows     3.5s → results/qwen3-0.6b-cloze/framing.parquet
+qwen3-0.6b-cloze             discrim_eval     8100 rows  1166.3s → results/qwen3-0.6b-cloze/discrim_eval.parquet
+  ⚠ qwen3-0.6b-cloze/bbq: mean option_mass 0.15; the model isn't answering with option letters, so these probabilities are not meaningful
+qwen3-0.6b-cloze             bbq              1782 rows   266.4s → results/qwen3-0.6b-cloze/bbq.parquet
