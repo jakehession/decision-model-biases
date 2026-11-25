@@ -1,3 +1,13 @@
 === 16:20 bosun-v3.1-0.6b
     bosun-v3.1-0.6b              bbq             19800 rows  2159.9s → results/bosun-v3.1-0.6b/bbq.parquet
 === 16:56 qwen3-0.6b
+    qwen3-0.6b                   bbq             19800 rows  1478.0s → results/qwen3-0.6b/bbq.parquet
+=== 17:21 vega-u-0.8b
+    vega-u-0.8b                  bbq             19800 rows  1287.0s → results/vega-u-0.8b/bbq.parquet
+=== 17:43 qwen3.5-0.8b
+    qwen3.5-0.8b                 bbq             19800 rows  1530.5s → results/qwen3.5-0.8b/bbq.parquet
+=== 18:08 bosun-v3.1
+    bosun-v3.1                   bbq             19800 rows  35685.4s → results/bosun-v3.1/bbq.parquet
+=== 04:03 qwen3-1.7b
+    qwen3-1.7b                   bbq             19800 rows  18215.0s → results/qwen3-1.7b/bbq.parquet
+=== 09:24 bbq expansion done

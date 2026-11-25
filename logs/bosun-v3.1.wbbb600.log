@@ -1,0 +1,7 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1125 10:15:03.866000 53927 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 6282.07it/s]
+bosun-v3.1                   winobias         1800 rows   307.7s → results/bosun-v3.1/winobias.parquet
+bosun-v3.1                   bb_framing       1800 rows   640.9s → results/bosun-v3.1/bb_framing.parquet
+bosun-v3.1                   bb_group_attribution   1800 rows   600.9s → results/bosun-v3.1/bb_group_attribution.parquet
+bosun-v3.1                   bb_status_quo    1800 rows   706.8s → results/bosun-v3.1/bb_status_quo.parquet

@@ -1,0 +1,9 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1125 10:03:29.770000 52658 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/320 [00:00<?, ?it/s]Loading weights:   0%|          | 1/320 [00:00<03:21,  1.58it/s]Loading weights: 100%|██████████| 320/320 [00:00<00:00, 502.17it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+qwen3.5-0.8b                 winobias         1800 rows    88.9s → results/qwen3.5-0.8b/winobias.parquet
+qwen3.5-0.8b                 bb_framing       1800 rows   198.1s → results/qwen3.5-0.8b/bb_framing.parquet
+qwen3.5-0.8b                 bb_group_attribution   1800 rows   186.3s → results/qwen3.5-0.8b/bb_group_attribution.parquet
+qwen3.5-0.8b                 bb_status_quo    1800 rows   211.9s → results/qwen3.5-0.8b/bb_status_quo.parquet

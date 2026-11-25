@@ -1,0 +1,26 @@
+=== 09:25 bosun-v3.1-0.6b
+    bosun-v3.1-0.6b              winobias         1800 rows   126.7s → results/bosun-v3.1-0.6b/winobias.parquet
+    bosun-v3.1-0.6b              bb_framing       1800 rows   267.1s → results/bosun-v3.1-0.6b/bb_framing.parquet
+    bosun-v3.1-0.6b              bb_group_attribution   1800 rows   245.7s → results/bosun-v3.1-0.6b/bb_group_attribution.parquet
+    bosun-v3.1-0.6b              bb_status_quo    1800 rows   292.7s → results/bosun-v3.1-0.6b/bb_status_quo.parquet
+=== 09:41 qwen3-0.6b
+    qwen3-0.6b                   winobias         1800 rows    79.2s → results/qwen3-0.6b/winobias.parquet
+    qwen3-0.6b                   bb_framing       1800 rows   193.7s → results/qwen3-0.6b/bb_framing.parquet
+    qwen3-0.6b                   bb_group_attribution   1800 rows   180.8s → results/qwen3-0.6b/bb_group_attribution.parquet
+    qwen3-0.6b                   bb_status_quo    1800 rows   212.3s → results/qwen3-0.6b/bb_status_quo.parquet
+=== 09:52 vega-u-0.8b
+    vega-u-0.8b                  winobias         1800 rows   107.1s → results/vega-u-0.8b/winobias.parquet
+    vega-u-0.8b                  bb_framing       1800 rows   182.7s → results/vega-u-0.8b/bb_framing.parquet
+    vega-u-0.8b                  bb_group_attribution   1800 rows   187.2s → results/vega-u-0.8b/bb_group_attribution.parquet
+    vega-u-0.8b                  bb_status_quo    1800 rows   179.4s → results/vega-u-0.8b/bb_status_quo.parquet
+=== 10:03 qwen3.5-0.8b
+    qwen3.5-0.8b                 winobias         1800 rows    88.9s → results/qwen3.5-0.8b/winobias.parquet
+    qwen3.5-0.8b                 bb_framing       1800 rows   198.1s → results/qwen3.5-0.8b/bb_framing.parquet
+    qwen3.5-0.8b                 bb_group_attribution   1800 rows   186.3s → results/qwen3.5-0.8b/bb_group_attribution.parquet
+    qwen3.5-0.8b                 bb_status_quo    1800 rows   211.9s → results/qwen3.5-0.8b/bb_status_quo.parquet
+=== 10:14 bosun-v3.1
+    bosun-v3.1                   winobias         1800 rows   307.7s → results/bosun-v3.1/winobias.parquet
+    bosun-v3.1                   bb_framing       1800 rows   640.9s → results/bosun-v3.1/bb_framing.parquet
+    bosun-v3.1                   bb_group_attribution   1800 rows   600.9s → results/bosun-v3.1/bb_group_attribution.parquet
+    bosun-v3.1                   bb_status_quo    1800 rows   706.8s → results/bosun-v3.1/bb_status_quo.parquet
+=== 10:52 qwen3-1.7b
