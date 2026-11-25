@@ -24,3 +24,8 @@
     bosun-v3.1                   bb_group_attribution   1800 rows   600.9s → results/bosun-v3.1/bb_group_attribution.parquet
     bosun-v3.1                   bb_status_quo    1800 rows   706.8s → results/bosun-v3.1/bb_status_quo.parquet
 === 10:52 qwen3-1.7b
+    qwen3-1.7b                   winobias         1800 rows   197.6s → results/qwen3-1.7b/winobias.parquet
+    qwen3-1.7b                   bb_framing       1800 rows   523.8s → results/qwen3-1.7b/bb_framing.parquet
+    qwen3-1.7b                   bb_group_attribution   1800 rows   504.2s → results/qwen3-1.7b/bb_group_attribution.parquet
+    qwen3-1.7b                   bb_status_quo    1800 rows   591.8s → results/qwen3-1.7b/bb_status_quo.parquet
+=== 11:23 winobias/biasbuster first read done

@@ -22,8 +22,15 @@ class DecisionItem:
     meta: dict[str, Any] = field(default_factory=dict)
 
 
+ROTATE = 1000  # seed ROTATE + k = seed 0's order rotated by k slots (Latin-square counterbalancing)
+
+
 def presentation_order(seed: int, row_id: str, n: int) -> list[int]:
-    """Bosun's stable-slot shuffle, reused so every backend sees the same option order."""
+    """Bosun's stable-slot shuffle, reused so every backend sees the same option order.
+    Rotation seeds (>= ROTATE) put every option in every slot once across k = 0..n-1; Bosun can't use them."""
+    if seed >= ROTATE:
+        base, k = presentation_order(0, row_id, n), (seed - ROTATE) % n
+        return base[k:] + base[:k]
     order = list(range(n))
     digest = hashlib.sha256(f"{seed}:{row_id}:candidate-order".encode()).digest()
     random.Random(int.from_bytes(digest[:8], "big")).shuffle(order)

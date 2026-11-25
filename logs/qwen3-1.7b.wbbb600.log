@@ -4,3 +4,4 @@ W1125 10:52:55.404000 60532 .venv/lib/python3.12/site-packages/torch/distributed
 qwen3-1.7b                   winobias         1800 rows   197.6s → results/qwen3-1.7b/winobias.parquet
 qwen3-1.7b                   bb_framing       1800 rows   523.8s → results/qwen3-1.7b/bb_framing.parquet
 qwen3-1.7b                   bb_group_attribution   1800 rows   504.2s → results/qwen3-1.7b/bb_group_attribution.parquet
+qwen3-1.7b                   bb_status_quo    1800 rows   591.8s → results/qwen3-1.7b/bb_status_quo.parquet

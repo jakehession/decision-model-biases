@@ -11,6 +11,7 @@ import typer
 import yaml
 
 from .backends import build_backend
+from .items import ROTATE
 from .tasks import TASKS
 
 app = typer.Typer(add_completion=False)
@@ -35,7 +36,8 @@ def main(
     tasks: str = typer.Option(",".join(TASKS), help="comma-separated task names"),
     limit: int = typer.Option(None, help="max items per task (sampled)"),
     task_limit: list[str] = typer.Option([], help="per-task override, e.g. discrim_eval=2700"),
-    seeds: str = typer.Option("0,1,2", help="presentation-order seeds; >1 averages out position"),
+    seeds: str = typer.Option("0,1,2", help="presentation-order seeds; >1 averages out position. "
+                              "1000,1001,... = counterbalanced rotations (bases only)"),
     batch: int = 8,
     out: Path = Path("results"),
     config: Path = Path("configs/models.yaml"),
@@ -50,7 +52,10 @@ def main(
             t0, rows = time.time(), []
             for seed in seed_list:
                 for i in range(0, len(items), batch):
-                    chunk = items[i : i + batch]
+                    chunk = [it for it in items[i : i + batch]  # rotation k only exists for items with > k options
+                             if seed < ROTATE or seed - ROTATE < len(it.candidates)]
+                    if not chunk:
+                        continue
                     with backend.intervention():
                         scored = backend.score(chunk, seed)
                     for it, r in zip(chunk, scored):
