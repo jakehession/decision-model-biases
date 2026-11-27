@@ -114,3 +114,64 @@ bosun-v3.1-0.6b-letters:
   loader: bosun
   path: ~/.cache/huggingface/hub/models--Hanno-Labs--bosun-v3.1-0.6b/snapshots/5e78a37c8d86860ebac9ef2d5327d6299498498e
   chat_kwargs: {enable_thinking: false}
+# Same as qwen3.5-0.8b / vega-u-0.8b, steered along a gender direction from 300 held-out BiasBuster pairs.
+qwen3.5-0.8b-bbg:
+  backend: mcq
+  path: Qwen/Qwen3.5-0.8B
+  revision: 2fc06364715b967f1860aea9cf38778875588b17
+  local_files_only: true
+  dtype: float32
+  chat_kwargs: {enable_thinking: false}
+  steer: results/steer/qwen3.5-0.8b-gender-female-L8-bb.pt
+vega-u-0.8b-bbg:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b-bbg
+  steer: results/steer/qwen3.5-0.8b-gender-female-L8-bb.pt
+# Random-direction control for the -bbg steer (same layer, same norm).
+qwen3.5-0.8b-rand:
+  backend: mcq
+  path: Qwen/Qwen3.5-0.8B
+  revision: 2fc06364715b967f1860aea9cf38778875588b17
+  local_files_only: true
+  dtype: float32
+  chat_kwargs: {enable_thinking: false}
+  steer: results/steer/qwen3.5-0.8b-random-L8-bb.pt
+vega-u-0.8b-rand:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b-rand
+  steer: results/steer/qwen3.5-0.8b-random-L8-bb.pt
+# Extra random-direction controls (seeds 1-5) for the Vega-0.8B gender steer.
+vega-u-0.8b-rand1:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b
+  steer: results/steer/qwen3.5-0.8b-random1-L8-bb.pt
+vega-u-0.8b-rand2:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b
+  steer: results/steer/qwen3.5-0.8b-random2-L8-bb.pt
+vega-u-0.8b-rand3:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b
+  steer: results/steer/qwen3.5-0.8b-random3-L8-bb.pt
+vega-u-0.8b-rand4:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b
+  steer: results/steer/qwen3.5-0.8b-random4-L8-bb.pt
+vega-u-0.8b-rand5:
+  backend: vega
+  engine: ~/.cache/huggingface/hub/models--nandakishorm--vega-U/snapshots/6aee375845724d2cca21d5fd5c043a028dbc1b48
+  reader: ~/.cache/huggingface/hub/models--Qwen--Qwen3.5-0.8B/snapshots/2fc06364715b967f1860aea9cf38778875588b17
+  base: qwen3.5-0.8b
+  steer: results/steer/qwen3.5-0.8b-random5-L8-bb.pt

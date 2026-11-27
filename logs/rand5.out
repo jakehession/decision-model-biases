@@ -1,0 +1,41 @@
+=== 14:14 vega-u-0.8b-rand1@a=-6
+    vega-u-0.8b-rand1@a=-6       bb_group_attribution    600 rows    61.8s → results/vega-u-0.8b-rand1@a=-6/bb_group_attribution.parquet
+=== 14:15 vega-u-0.8b-rand1@a=-3
+    vega-u-0.8b-rand1@a=-3       bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand1@a=-3/bb_group_attribution.parquet
+=== 14:16 vega-u-0.8b-rand1@a=3
+    vega-u-0.8b-rand1@a=3        bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand1@a=3/bb_group_attribution.parquet
+=== 14:17 vega-u-0.8b-rand1@a=6
+    vega-u-0.8b-rand1@a=6        bb_group_attribution    600 rows    61.4s → results/vega-u-0.8b-rand1@a=6/bb_group_attribution.parquet
+=== 14:19 vega-u-0.8b-rand2@a=-6
+    vega-u-0.8b-rand2@a=-6       bb_group_attribution    600 rows    62.0s → results/vega-u-0.8b-rand2@a=-6/bb_group_attribution.parquet
+=== 14:20 vega-u-0.8b-rand2@a=-3
+    vega-u-0.8b-rand2@a=-3       bb_group_attribution    600 rows    61.3s → results/vega-u-0.8b-rand2@a=-3/bb_group_attribution.parquet
+=== 14:21 vega-u-0.8b-rand2@a=3
+    vega-u-0.8b-rand2@a=3        bb_group_attribution    600 rows    61.0s → results/vega-u-0.8b-rand2@a=3/bb_group_attribution.parquet
+=== 14:22 vega-u-0.8b-rand2@a=6
+    vega-u-0.8b-rand2@a=6        bb_group_attribution    600 rows    61.5s → results/vega-u-0.8b-rand2@a=6/bb_group_attribution.parquet
+=== 14:23 vega-u-0.8b-rand3@a=-6
+    vega-u-0.8b-rand3@a=-6       bb_group_attribution    600 rows    64.1s → results/vega-u-0.8b-rand3@a=-6/bb_group_attribution.parquet
+=== 14:24 vega-u-0.8b-rand3@a=-3
+    vega-u-0.8b-rand3@a=-3       bb_group_attribution    600 rows    62.6s → results/vega-u-0.8b-rand3@a=-3/bb_group_attribution.parquet
+=== 14:25 vega-u-0.8b-rand3@a=3
+    vega-u-0.8b-rand3@a=3        bb_group_attribution    600 rows    63.4s → results/vega-u-0.8b-rand3@a=3/bb_group_attribution.parquet
+=== 14:26 vega-u-0.8b-rand3@a=6
+    vega-u-0.8b-rand3@a=6        bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand3@a=6/bb_group_attribution.parquet
+=== 14:27 vega-u-0.8b-rand4@a=-6
+    vega-u-0.8b-rand4@a=-6       bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand4@a=-6/bb_group_attribution.parquet
+=== 14:29 vega-u-0.8b-rand4@a=-3
+    vega-u-0.8b-rand4@a=-3       bb_group_attribution    600 rows    61.3s → results/vega-u-0.8b-rand4@a=-3/bb_group_attribution.parquet
+=== 14:30 vega-u-0.8b-rand4@a=3
+    vega-u-0.8b-rand4@a=3        bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand4@a=3/bb_group_attribution.parquet
+=== 14:31 vega-u-0.8b-rand4@a=6
+    vega-u-0.8b-rand4@a=6        bb_group_attribution    600 rows    61.9s → results/vega-u-0.8b-rand4@a=6/bb_group_attribution.parquet
+=== 14:32 vega-u-0.8b-rand5@a=-6
+    vega-u-0.8b-rand5@a=-6       bb_group_attribution    600 rows    61.4s → results/vega-u-0.8b-rand5@a=-6/bb_group_attribution.parquet
+=== 14:33 vega-u-0.8b-rand5@a=-3
+    vega-u-0.8b-rand5@a=-3       bb_group_attribution    600 rows    61.1s → results/vega-u-0.8b-rand5@a=-3/bb_group_attribution.parquet
+=== 14:34 vega-u-0.8b-rand5@a=3
+    vega-u-0.8b-rand5@a=3        bb_group_attribution    600 rows    61.1s → results/vega-u-0.8b-rand5@a=3/bb_group_attribution.parquet
+=== 14:35 vega-u-0.8b-rand5@a=6
+    vega-u-0.8b-rand5@a=6        bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand5@a=6/bb_group_attribution.parquet
+=== 14:36 random controls done

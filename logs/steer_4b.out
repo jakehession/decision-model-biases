@@ -1,0 +1,46 @@
+=== 10:24 vega-u-0.8b-bbg@a=-6
+    vega-u-0.8b-bbg@a=-6         bb_group_attribution    600 rows    61.7s → results/vega-u-0.8b-bbg@a=-6/bb_group_attribution.parquet
+=== 10:25 qwen3.5-0.8b-bbg@a=-6
+    qwen3.5-0.8b-bbg@a=-6        bb_group_attribution   1200 rows   125.1s → results/qwen3.5-0.8b-bbg@a=-6/bb_group_attribution.parquet
+=== 10:27 vega-u-0.8b-bbg@a=-3
+    vega-u-0.8b-bbg@a=-3         bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-bbg@a=-3/bb_group_attribution.parquet
+=== 10:28 qwen3.5-0.8b-bbg@a=-3
+    qwen3.5-0.8b-bbg@a=-3        bb_group_attribution   1200 rows   124.6s → results/qwen3.5-0.8b-bbg@a=-3/bb_group_attribution.parquet
+=== 10:31 vega-u-0.8b-bbg@a=3
+    vega-u-0.8b-bbg@a=3          bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-bbg@a=3/bb_group_attribution.parquet
+=== 10:32 qwen3.5-0.8b-bbg@a=3
+    qwen3.5-0.8b-bbg@a=3         bb_group_attribution   1200 rows   124.3s → results/qwen3.5-0.8b-bbg@a=3/bb_group_attribution.parquet
+=== 10:34 vega-u-0.8b-bbg@a=6
+    vega-u-0.8b-bbg@a=6          bb_group_attribution    600 rows    61.3s → results/vega-u-0.8b-bbg@a=6/bb_group_attribution.parquet
+=== 10:35 qwen3.5-0.8b-bbg@a=6
+    qwen3.5-0.8b-bbg@a=6         bb_group_attribution   1200 rows   125.1s → results/qwen3.5-0.8b-bbg@a=6/bb_group_attribution.parquet
+=== 10:37 vega-u-0.8b-rand@a=-6
+    vega-u-0.8b-rand@a=-6        bb_group_attribution    600 rows    61.3s → results/vega-u-0.8b-rand@a=-6/bb_group_attribution.parquet
+=== 10:38 qwen3.5-0.8b-rand@a=-6
+    qwen3.5-0.8b-rand@a=-6       bb_group_attribution   1200 rows   125.2s → results/qwen3.5-0.8b-rand@a=-6/bb_group_attribution.parquet
+=== 10:40 vega-u-0.8b-rand@a=-3
+    vega-u-0.8b-rand@a=-3        bb_group_attribution    600 rows    61.4s → results/vega-u-0.8b-rand@a=-3/bb_group_attribution.parquet
+=== 10:41 qwen3.5-0.8b-rand@a=-3
+    qwen3.5-0.8b-rand@a=-3       bb_group_attribution   1200 rows   124.7s → results/qwen3.5-0.8b-rand@a=-3/bb_group_attribution.parquet
+=== 10:44 vega-u-0.8b-rand@a=3
+    vega-u-0.8b-rand@a=3         bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand@a=3/bb_group_attribution.parquet
+=== 10:45 qwen3.5-0.8b-rand@a=3
+    qwen3.5-0.8b-rand@a=3        bb_group_attribution   1200 rows   124.6s → results/qwen3.5-0.8b-rand@a=3/bb_group_attribution.parquet
+=== 10:47 vega-u-0.8b-rand@a=6
+    vega-u-0.8b-rand@a=6         bb_group_attribution    600 rows    61.2s → results/vega-u-0.8b-rand@a=6/bb_group_attribution.parquet
+=== 10:48 qwen3.5-0.8b-rand@a=6
+    qwen3.5-0.8b-rand@a=6        bb_group_attribution   1200 rows   124.6s → results/qwen3.5-0.8b-rand@a=6/bb_group_attribution.parquet
+=== 10:50 vega-u-4b
+    vega-u-4b                    discrim_eval     1620 rows   751.1s → results/vega-u-4b/discrim_eval.parquet
+    vega-u-4b                    winobias         1800 rows   406.2s → results/vega-u-4b/winobias.parquet
+    vega-u-4b                    bb_framing       1800 rows   826.6s → results/vega-u-4b/bb_framing.parquet
+    vega-u-4b                    bb_group_attribution   1800 rows   831.7s → results/vega-u-4b/bb_group_attribution.parquet
+    vega-u-4b                    bb_status_quo    1800 rows   815.1s → results/vega-u-4b/bb_status_quo.parquet
+    vega-u-4b                    bbq             19800 rows  5121.4s → results/vega-u-4b/bbq.parquet
+=== 13:17 qwen3.5-4b
+!!! qwen3.5-4b failed
+    qwen3.5-4b                   winobias         1800 rows   404.5s → results/qwen3.5-4b/winobias.parquet
+    qwen3.5-4b                   bb_framing       1800 rows   980.3s → results/qwen3.5-4b/bb_framing.parquet
+    qwen3.5-4b                   bb_group_attribution   1800 rows   939.0s → results/qwen3.5-4b/bb_group_attribution.parquet
+    qwen3.5-4b                   bb_status_quo    1800 rows  1044.0s → results/qwen3.5-4b/bb_status_quo.parquet
+=== 14:14 steering + 4B runs done

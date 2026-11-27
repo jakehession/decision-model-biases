@@ -1,7 +1,7 @@
-"""Build a demographic steering direction from held-out discrim-eval templates (never the scored ones).
+"""Build a demographic steering direction from held-out counterfactual pairs (never the scored items).
 
-vector = mean over counterfactual pairs of [mean-pooled hidden(target) - mean-pooled hidden(reference)] at the
-output of decoder block `layer`. Pairs differ only in the attribute; templates scored by `run` are excluded.
+vector = mean over pairs of [mean-pooled hidden(target) - mean-pooled hidden(reference)] at the output of decoder
+block `layer`. Source: discrim-eval templates, or BiasBuster gender profiles outside the scored sample.
 """
 
 from __future__ import annotations
@@ -27,8 +27,10 @@ def main(
     model: str = typer.Option(..., help="mcq entry in configs/models.yaml whose weights are the reader"),
     layer: int = typer.Option(..., help="decoder block whose output is steered"),
     attr: str = "gender", target: str = "female", reference: str = "male",
-    scored_limit: int = typer.Option(2700, help="discrim_eval limit used in runs; those templates are held out"),
+    scored_limit: int = typer.Option(2700, help="limit used in runs for --source; those items are held out"),
     pairs_per_template: int = 10,
+    source: str = typer.Option("discrim_eval", help="discrim_eval | bb_group_attribution"),
+    max_pairs: int = typer.Option(300, help="bb_group_attribution: held-out pairs used"),
     out: Path = Path("results/steer"),
     config: Path = Path("configs/models.yaml"),
 ):
@@ -39,23 +41,32 @@ def main(
                                               **kw).to(_device()).eval()
     block = decoder_layers(lm)[layer]
 
-    scored = {it.group_id.split(":")[1] for it in TASKS["discrim_eval"](scored_limit)}
-    rows = [r for r in load_dataset("Anthropic/discrim-eval", "explicit", cache_dir=HF_CACHE)["train"]
-            if str(r["decision_question_id"]) not in scored]
-    keys = ("decision_question_id", "age", "race", "gender")
-    cells = {}
-    for r in rows:
-        if r[attr] in (target, reference):
-            k = tuple(r[x] for x in keys if x != attr)
-            cells.setdefault(k, {})[r[attr]] = r["filled_template"]
-    by_q: dict = {}
-    for k, v in cells.items():
-        if len(v) == 2:
-            by_q.setdefault(k[0], []).append(v)
-    rng = random.Random(0)
-    pairs = [p for q in sorted(by_q) for p in rng.sample(by_q[q], min(pairs_per_template, len(by_q[q])))]
+    if source == "bb_group_attribution":
+        scored = {it.group_id for it in TASKS[source](scored_limit)}
+        groups: dict = {}
+        for it in TASKS[source](None):
+            if it.group_id not in scored:
+                groups.setdefault(it.group_id, {})[it.variant[attr]] = f"{it.state['application']}\n{it.instructions}"
+        pairs = [v for _, v in sorted(groups.items()) if len(v) == 2][:max_pairs]
+        by_q, scored = groups, sorted(scored)
+    else:
+        scored = {it.group_id.split(":")[1] for it in TASKS["discrim_eval"](scored_limit)}
+        rows = [r for r in load_dataset("Anthropic/discrim-eval", "explicit", cache_dir=HF_CACHE)["train"]
+                if str(r["decision_question_id"]) not in scored]
+        keys = ("decision_question_id", "age", "race", "gender")
+        cells = {}
+        for r in rows:
+            if r[attr] in (target, reference):
+                k = tuple(r[x] for x in keys if x != attr)
+                cells.setdefault(k, {})[r[attr]] = r["filled_template"]
+        by_q = {}
+        for k, v in cells.items():
+            if len(v) == 2:
+                by_q.setdefault(k[0], []).append(v)
+        rng = random.Random(0)
+        pairs = [p for q in sorted(by_q) for p in rng.sample(by_q[q], min(pairs_per_template, len(by_q[q])))]
 
-    cap = {}
+    cap, norms = {}, []
     handle = block.register_forward_hook(lambda _m, _i, o: cap.__setitem__("h", o[0] if isinstance(o, tuple) else o))
 
     def pooled(text: str) -> torch.Tensor:
@@ -63,18 +74,22 @@ def main(
                                       return_tensors="pt", return_dict=True, **spec.get("chat_kwargs", {}))
         with torch.inference_mode():
             lm(**{k: v.to(lm.device) for k, v in ids.items()}, use_cache=False, logits_to_keep=1)
-        return cap["h"][0].float().mean(0).cpu()
+        h = cap["h"][0].float()
+        norms.append(h.norm(dim=-1).mean().item())
+        return h.mean(0).cpu()
 
     diffs = torch.stack([pooled(p[target]) - pooled(p[reference]) for p in pairs])
     handle.remove()
     vec = diffs.mean(0)
     cos = torch.nn.functional.cosine_similarity(diffs, vec[None], dim=-1)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{model}-{attr}-{target}-L{layer}.pt"
+    tag = "" if source == "discrim_eval" else "-bb"
+    path = out / f"{model}-{attr}-{target}-L{layer}{tag}.pt"
     torch.save({"vector": vec, "layer": layer, "attr": attr, "target": target, "reference": reference,
-                "n_pairs": len(pairs), "n_templates": len(by_q), "held_out_from": sorted(scored)}, path)
+                "n_pairs": len(pairs), "n_templates": len(by_q), "held_out_from": sorted(scored),
+                "source": source, "resid_norm": sum(norms) / len(norms)}, path)
     typer.echo(f"{path}: {len(pairs)} pairs from {len(by_q)} held-out templates, |v|={vec.norm():.3f}, "
-               f"mean cos(pair diff, v)={cos.mean():.3f}")
+               f"mean cos(pair diff, v)={cos.mean():.3f}, mean residual norm {sum(norms) / len(norms):.1f}")
 
 
 if __name__ == "__main__":
